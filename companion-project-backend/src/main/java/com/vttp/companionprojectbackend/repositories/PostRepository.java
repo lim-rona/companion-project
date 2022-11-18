@@ -46,6 +46,10 @@ public class PostRepository {
 
     private static final String SQL_GET_POSTS_FROM_USERID="select * from Post where user_id=?";
 
+    private static final String SQL_DELETE_POSTID_FROM_HASHTAGPOST="delete from post_hashtag where post_id=?";
+
+    private static final String SQL_DELETE_POST="delete from Post where post_id=?";
+
 
     public boolean insertPost(Post post){
         int updated=0;
@@ -240,8 +244,19 @@ public class PostRepository {
                 return posts;
             },user_id);
 
-        
+    }
 
+    public boolean deletePost(Integer post_id){
+        try {
+            template.update(SQL_DELETE_POSTID_FROM_HASHTAGPOST, post_id);
+            template.update(SQL_DELETE_POST,post_id);
+            System.out.println("Post " +post_id+" was deleted successfully!");
+            return true;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return false;
+        }
     }
     
 }

@@ -8,6 +8,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class PostRestController {
     
     @PostMapping(path="/addPost",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadPost(@RequestPart(required=false) MultipartFile image, @RequestPart String title,
-        @RequestPart String date, @RequestPart String text, @RequestPart String lat, @RequestPart String lng, 
+        @RequestPart String date, @RequestPart String text, @RequestPart(required=false) String lat, @RequestPart(required=false) String lng, 
         @RequestPart(required=false) String hashtags, @RequestPart String username){
             Post post = new Post();
             post.setImage(image);
@@ -123,5 +124,26 @@ public class PostRestController {
         }
         
         return ResponseEntity.ok(bobTheBuilder.build().toString());
+    }
+
+    @DeleteMapping(path="/deletePost")
+    public ResponseEntity<String> deletePost(@RequestParam Integer post_id){
+        System.out.println("deletePost API was called");
+
+        
+        if(postSvc.deletePost(post_id)){
+            JsonObject message = Json.createObjectBuilder()
+            .add("status",true)
+            .add("message", "Post successfully deleted!")
+            .build();
+            return ResponseEntity.ok(message.toString());
+        }else{
+            JsonObject result = Json.createObjectBuilder()
+            .add("status",false)
+            .add("message", "There was an error deleting post, please try again.")
+            .build();
+        return ResponseEntity.status(503).body(result.toString());
+        }
+        
     }
 }

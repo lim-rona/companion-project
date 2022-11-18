@@ -17,7 +17,7 @@ public class PostService {
     private PostRepository postRepo;
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepo;    
 
     public boolean insertPost(Post post){
 
@@ -65,5 +65,9 @@ public class PostService {
         int user_id = opt_user_id.get();
 
         return postRepo.getPostsForUser(user_id);
+    }
+
+    public boolean deletePost(Integer post_id){
+        return postRepo.deletePost(post_id);
     }
 }
