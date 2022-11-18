@@ -44,7 +44,9 @@ public class PostRestController {
             post.setLat(lat);
             post.setLng(lng);
             post.setUsername(username);
-            post.setHashtags(Arrays.asList(hashtags.split(",")));
+            if(hashtags!=null){
+                post.setHashtags(Arrays.asList(hashtags.split(",")));      
+            }
 
             if(postSvc.insertPost(post)){
                 JsonObject message = Json.createObjectBuilder()

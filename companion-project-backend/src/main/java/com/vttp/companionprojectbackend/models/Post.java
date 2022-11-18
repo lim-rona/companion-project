@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 public class Post {
     private MultipartFile image;
@@ -123,17 +124,27 @@ public class Post {
     
     public JsonObject toJson(){
         System.out.println("This is hashtag To String: " + hashtags.toString());
-        return Json.createObjectBuilder()
-            .add("imageBase64",imageBase64)
+        JsonObjectBuilder message = Json.createObjectBuilder();
+        message
             .add("title",title)
             .add("date",date)
             .add("text",text)
-            .add("lat",lat)
-            .add("lng",lng)
             .add("post_id",post_id)
             // .add("username",username)
-            .add("hashtags",hashtags.toString()) // Not sure if this works
-            .build();
-    }
+            .add("hashtags",hashtags.toString());
+            if(imageBase64!=null){
+                message.add("imageBase64",imageBase64);
+            }
+            if(lat!=null&&lng!=null){
+                message
+                    .add("lat",lat)
+                    .add("lng",lng);
+            }
+        return message.build();
+     }
+
+            
+        
+        
 
 }

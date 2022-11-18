@@ -34,7 +34,11 @@ public class PostService {
             post_id = postRepo.lastInsertId();
         }
 
-        return postRepo.insertHashtags(post.getHashtags(),post_id);
+        if(post.getHashtags()!=null){
+            return postRepo.insertHashtags(post.getHashtags(),post_id);
+        } else{
+            return true;
+        }
     }
 
     public List<String> getPostTitles(String date, String username){

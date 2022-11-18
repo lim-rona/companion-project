@@ -54,9 +54,15 @@ public class PostRepository {
     public boolean insertPost(Post post){
         int updated=0;
 
+        System.out.println("In repo, post.getimage() = " + post.getImage());
         // Inserting post and returning post_id
         try{
-            updated=template.update(SQL_INSERT_POST,post.getImage().getInputStream(), post.getTitle(),post.getDate(),post.getText(),post.getLat(),post.getLng(),post.getUser_id());
+            if(post.getImage()!=null){
+                updated=template.update(SQL_INSERT_POST,post.getImage().getInputStream(), post.getTitle(),post.getDate(),post.getText(),post.getLat(),post.getLng(),post.getUser_id());
+            }
+            else{
+                updated=template.update(SQL_INSERT_POST,null, post.getTitle(),post.getDate(),post.getText(),post.getLat(),post.getLng(),post.getUser_id());
+            }
         }catch(Exception ex){
             ex.printStackTrace();
         }
