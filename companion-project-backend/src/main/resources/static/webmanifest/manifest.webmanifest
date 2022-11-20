@@ -3,7 +3,7 @@
     "background_color": "#f2c2c2",
     "display": "browser",
     "scope": "/",
-    "start_url": "/",
+    "start_url": "/#/",
     "name": "companion_project",
     "short_name": "Companion",
     "icons": [
